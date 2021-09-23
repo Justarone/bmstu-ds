@@ -3,7 +3,7 @@ use rand::prelude::*;
 pub(crate) struct Rotor {
     map: Vec<u8>,
     map_inv: Vec<u8>,
-    offset: usize,
+    offset: u8,
 }
 
 impl Rotor {
@@ -19,24 +19,19 @@ impl Rotor {
     }
 
     pub(crate) fn get(&self, val: u8) -> u8 {
-        let index = (val as usize + self.offset) % 256;
-        self.map[index]
+        let index = self.offset.wrapping_add(val);
+        self.map[index as usize]
     }
 
     pub(crate) fn get_inv(&self, val: u8) -> u8 {
-        let no_offset_val = self.map_inv[val as usize] as usize;
-        ((256 + no_offset_val - self.offset) % 256) as u8
+        let no_offset_val = self.map_inv[val as usize];
+        no_offset_val.wrapping_sub(self.offset)
     }
 
     // returns true in case of full circle
     pub(crate) fn roll(&mut self) -> bool {
-        if self.offset == 255 {
-            self.offset = 0;
-            true
-        } else {
-            self.offset += 1;
-            false
-        }
+        self.offset = self.offset.wrapping_add(1);
+        self.offset == 0
     }
 
     pub(crate) fn reset(&mut self) {

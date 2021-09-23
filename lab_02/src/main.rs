@@ -13,7 +13,7 @@ fn main() {
     let (input_file, mut output_file) =
         get_files(input_filename, output_filename).expect("Problems with files..");
 
-    let input = input_from_file(input_file).expect("Can't read file");
+    let input = input_from_file(input_file).expect("Can't read file..");
     let seed = get_seed(&matches);
 
     let mut enigma = Enigma::with_seed(seed);
@@ -21,5 +21,5 @@ fn main() {
 
     output_file
         .write_all(&output)
-        .expect("Can't write output to file");
+        .expect("Can't write output to file..");
 }

@@ -14,7 +14,6 @@ pub(crate) fn get_files(
     let f = OpenOptions::new()
         .mode(0o777)
         .create(true)
-        .read(false)
         .write(true)
         .truncate(true)
         .open(output_file)?;

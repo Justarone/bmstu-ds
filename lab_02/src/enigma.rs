@@ -21,8 +21,8 @@ impl Enigma {
     pub(crate) fn process(&mut self, input: &[u8]) -> Vec<u8> {
         input
             .iter()
-            .map(|b| {
-                let mut val = *b;
+            .copied()
+            .map(|mut val| {
                 self.rotors.iter().for_each(|r| val = r.get(val));
                 val = self.reflector.get(val);
                 self.rotors.iter().rev().for_each(|r| val = r.get_inv(val));

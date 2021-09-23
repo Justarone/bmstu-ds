@@ -9,10 +9,10 @@ impl Reflector {
         let mut tmp: Vec<_> = (0..256).map(|i| i as u8).collect();
         tmp.shuffle(rng);
         let mut map = vec![0u8; 256];
-        for chunk in tmp.chunks(2) {
-            map[chunk[0] as usize] = chunk[1];
-            map[chunk[1] as usize] = chunk[0];
-        }
+        tmp.chunks(2).for_each(|pair| {
+            map[pair[0] as usize] = pair[1];
+            map[pair[1] as usize] = pair[0];
+        });
         Self { map }
     }
 
